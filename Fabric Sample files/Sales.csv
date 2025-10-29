@@ -1,0 +1,11 @@
+SaleID,Date,CustomerID,Product,Region,SalesAmount
+1,01-01-2025,C001,Mobile,East,15000
+2,02-01-2025,C002,Laptop,West,22000
+3,03-01-2025,C003,Tablet,North,12000
+4,04-01-2025,C004,Mobile,South,18000
+5,05-01-2025,C001,Laptop,East,20000
+6,06-01-2025,C005,Tablet,West,9000
+7,07-01-2025,C002,Mobile,North,17000
+8,08-01-2025,C003,Laptop,South,25000
+9,09-01-2025,C004,Tablet,East,11000
+10,10-01-2025,C005,Mobile,West,16000
