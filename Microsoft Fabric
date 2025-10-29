@@ -1,0 +1,64 @@
+#Firstly you need to provide the paths for the file so create the paths like below - 
+
+bronze_path = "Files/bronze/retail_sales.csv"
+silver_path = "Tables/Silver_Sales"
+gold_path   = "Tables/Gold_Sales_Summary"
+
+-----------------------------------------------------------------------------------
+#Now to load the file from bronze to silver layr - 
+
+df = spark.read.format("csv").option("header","true").load("Files/bronze/retail_sales.csv")
+# df now is a Spark DataFrame containing CSV data from "Files/bronze/retail_sales.csv".
+display(df)
+
+#Here you will see file has been loaded to df
+---------------------------------------------------------------------------------------------------------
+#Below step will push the file from Bromze to Silver layr as delta table
+
+df_bronze.write \
+    .format("delta") \
+    .mode("overwrite") \
+    .saveAsTable("silver_retail_sales")
+
+print("Silver table registered as Delta table: silver_retail_sales")
+
+-------------------------------------------------------------------------------------------------------
+
+#Gold Layr
+from pyspark.sql.functions import sum as _sum, col
+
+# Read Silver Delta table
+silver_table_name = "silver_retail_sales"
+df_silver = spark.read.table(silver_table_name)
+
+# Clean and transform
+df_silver = (
+    df_silver
+    .withColumn("Quantity", col("Quantity").cast("int"))
+    .withColumn("TotalAmount", col("TotalAmount").cast("double"))
+)
+
+# Aggregate to create Gold summary
+df_gold = (
+    df_silver.groupBy("Region", "Category")
+    .agg(
+        _sum("Quantity").alias("Total_Quantity"),
+        _sum("TotalAmount").alias("Total_Sales")
+    )
+    .orderBy("Region", "Category")
+)
+
+------------------------------------------------------------------------------------
+#Save as Gold registered Delta table in the Lakehouse
+
+df_gold.write \
+    .format("delta") \
+    .mode("overwrite") \
+    .saveAsTable("gold_sales_summary")
+
+display(df_gold)
+print("Gold table saved and registered as: gold_sales_summary")
+--------------------------------------------------------------------------------------
+
+For better experience ou can run the all files together 
+
