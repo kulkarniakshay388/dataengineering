@@ -1,0 +1,7 @@
+OrderID,Date,Product,Category,Quantity,UnitPrice,TotalAmount,Region
+1001,10-01-2024,Laptop,Electronics,2,50000,100000,North
+1002,11-01-2024,Headphones,Electronics,5,2000,10000,West
+1003,12-01-2024,Chair,Furniture,3,3000,9000,East
+1004,13-01-2024,Table,Furniture,2,7000,14000,South
+1005,14-01-2024,T-shirt,Apparel,10,800,8000,North
+1006,15-01-2024,Shoes,Apparel,4,2500,10000,West
